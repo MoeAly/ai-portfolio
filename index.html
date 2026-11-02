@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mohamed Hamdy, AI builder and data analyst. Claude agents and skills that work on real company data, check their own output and keep people in control.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F1620'/%3E%3Cpath d='M7 24V8l9 10 9-10v16' fill='none' stroke='%23F2A531' stroke-width='3' stroke-linejoin='round'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0F1620">
+<meta property="og:title" content="Mohamed Hamdy | AI Portfolio">
+<meta property="og:description" content="AI agents and skills built on real company data: what I built, how I build, and the impact on the team.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}</style>
+<title>Mohamed Hamdy | AI Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Schibsted+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same instrument-panel system as the data portfolio. Hero with proof numbers, journey strip, capability grid, method rail, case studies, offers, contact. */
+:root{
+  --bg:#0F1620; --surface:#151F2B; --raise:#1B2735; --line:#26364A;
+  --fg:#E4EBF3; --muted:#8C9CB1; --amber:#F2A531; --cyan:#6CC3D5; --on-amber:#1A1206;
+  --good:#5CC48A; --warn:#E8C25A; --bad:#EF7A6B;
+  --display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --body:"Schibsted Grotesk","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  --bg:#EDF0F4; --surface:#FFFFFF; --raise:#F5F7FA; --line:#D2D9E2;
+  --fg:#111923; --muted:#55657A; --amber:#A85F00; --cyan:#17758A; --on-amber:#FFFFFF;
+  --good:#1E8A52; --warn:#9A6B00; --bad:#C2412F; color-scheme:light }}
+:root[data-theme="light"]{
+  --bg:#EDF0F4; --surface:#FFFFFF; --raise:#F5F7FA; --line:#D2D9E2;
+  --fg:#111923; --muted:#55657A; --amber:#A85F00; --cyan:#17758A; --on-amber:#FFFFFF;
+  --good:#1E8A52; --warn:#9A6B00; --bad:#C2412F; color-scheme:light }
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:2px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.6rem,3vw,2.2rem)}
+h3{font-size:1.2rem}
+p{margin:0}
+section{padding-block:72px;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:28px}
+.sec-sub{color:var(--muted);max-width:64ch;margin:-14px 0 28px}
+
+/* nav */
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.mark{font-family:var(--display);font-weight:700;letter-spacing:.06em;text-decoration:none;white-space:nowrap}
+.mark span{color:var(--amber)}
+.mark small{font-family:var(--mono);font-weight:400;font-size:.7rem;color:var(--muted);letter-spacing:.1em;margin-left:8px}
+.nav nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto}
+.nav nav::-webkit-scrollbar{display:none}
+.nav nav a{font-family:var(--mono);font-size:.76rem;text-decoration:none;color:var(--muted);padding:8px 10px;border-radius:4px;white-space:nowrap}
+.nav nav a:hover{color:var(--fg);background:var(--raise)}
+.nav nav a.ext{color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 45%,transparent)}
+.theme-btn{flex:none;background:none;border:1px solid var(--line);color:var(--muted);border-radius:4px;width:34px;height:34px;cursor:pointer}
+
+/* hero */
+.hero{border-top:0;padding-block:76px 56px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse 70% 80% at 85% 15%,#000,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 70% 80% at 85% 15%,#000,transparent 70%)}
+.hero .wrap{position:relative}
+.status{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 0 4px color-mix(in srgb,var(--amber) 22%,transparent)}
+.hero h1{font-size:clamp(2.3rem,5.6vw,4rem);font-weight:700;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.lede{max-width:62ch;color:var(--muted);font-size:1.08rem;margin:20px 0 28px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:.8rem;text-decoration:none;padding:11px 16px;border-radius:4px;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--amber);border-color:var(--amber);color:var(--on-amber);font-weight:500}
+.proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:6px;background:var(--surface);margin-top:48px}
+.pf{padding:18px 20px;border-left:1px solid var(--line);min-width:0}
+.pf:first-child{border-left:0}
+.pf .v{font-family:var(--display);font-size:clamp(1.5rem,2.8vw,2rem);font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.pf .v em{font-style:normal;color:var(--amber)}
+.pf .d{font-size:.84rem;color:var(--muted);line-height:1.4;margin-top:6px}
+
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;position:relative}
+.jstep{position:relative;padding:22px 20px 0 0;min-width:0}
+.jstep::before{content:"";position:absolute;left:0;right:0;top:6px;height:2px;background:var(--line)}
+.jstep::after{content:"";position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan)}
+.jstep.now::after{border-color:var(--amber);background:var(--amber)}
+.jstep .when{font-family:var(--mono);font-size:.74rem;color:var(--cyan);margin-top:10px;display:block}
+.jstep.now .when{color:var(--amber)}
+.jstep h3{font-size:1.05rem;margin:4px 0 6px}
+.jstep p{font-size:.88rem;color:var(--muted);line-height:1.5}
+
+/* capabilities */
+.caps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.cap{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.cap .ic{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.cap p{color:var(--muted);font-size:.92rem;line-height:1.55}
+.cap a{margin-top:auto;font-family:var(--mono);font-size:.74rem;color:var(--cyan);text-decoration:none;padding-top:10px;border-top:1px dashed var(--line)}
+.cap a:hover{text-decoration:underline}
+.toolbox{margin-top:16px;border:1px solid var(--line);border-radius:6px;background:var(--surface);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;overflow:hidden;background:var(--line)}
+.tb{background:var(--surface);padding:14px 16px;display:grid;gap:8px;align-content:start;min-width:0}
+.tb ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:5px}
+.tb li{font-size:.8rem;padding:3px 8px;border-radius:3px;background:var(--raise);border:1px solid var(--line)}
+.tb li.k{border-color:var(--amber);color:var(--amber)}
+
+/* method */
+.method{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;counter-reset:m}
+.ms{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.ms .n{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.ms b{font-family:var(--display);font-weight:600;font-size:1rem;line-height:1.25}
+.ms p{font-size:.84rem;color:var(--muted);line-height:1.5}
+.ms.human{border-color:var(--cyan)}
+.ms.human .n{color:var(--cyan)}
+
+/* cases */
+.case{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:36px;padding-block:44px;border-top:1px solid var(--line);align-items:start}
+.case:first-of-type{border-top:0;padding-top:8px}
+.case.flip .viz{order:2}
+.case-text{display:flex;flex-direction:column;gap:14px;min-width:0}
+.case-text h3{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+.case-text>p{color:var(--muted)}
+.pa{display:grid;gap:10px}
+.pa div{display:grid;grid-template-columns:96px 1fr;gap:12px;font-size:.92rem}
+.pa .label{padding-top:3px}
+.stats{display:flex;flex-wrap:wrap;gap:10px 28px;padding:12px 0;border-block:1px dashed var(--line)}
+.stat .v{font-family:var(--display);font-weight:700;font-size:1.7rem;color:var(--amber);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .d{font-size:.8rem;color:var(--muted);max-width:20ch;line-height:1.35}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--mono);font-size:.7rem;padding:3px 8px;border-radius:3px;background:var(--raise);color:var(--muted);border:1px solid var(--line)}
+.viz{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;min-width:0;display:grid;gap:14px}
+.viz-cap{font-size:.8rem;color:var(--muted);line-height:1.45}
+
+/* pipeline stepper */
+.pipe{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:4px}
+.pipe button{all:unset;cursor:pointer;text-align:center;padding:9px 2px;border:1px solid var(--line);border-radius:4px;background:var(--raise);font-family:var(--mono);font-size:.74rem;color:var(--muted);position:relative}
+.pipe button.gate::after{content:"";position:absolute;top:-4px;right:-4px;width:8px;height:8px;border-radius:50%;background:var(--warn)}
+.pipe button.hum::after{content:"";position:absolute;top:-4px;right:-4px;width:8px;height:8px;border-radius:50%;background:var(--cyan)}
+.pipe button[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:color-mix(in srgb,var(--amber) 10%,var(--raise))}
+.pipe button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.pdetail{border:1px solid var(--line);border-radius:5px;padding:14px;background:var(--bg);min-height:118px;display:grid;gap:6px}
+.pdetail b{font-family:var(--display);font-weight:600}
+.pdetail p{font-size:.88rem;color:var(--muted);line-height:1.5}
+.pdetail .rule{font-family:var(--mono);font-size:.74rem;color:var(--fg)}
+.pkey{display:flex;flex-wrap:wrap;gap:14px;font-size:.76rem;color:var(--muted)}
+.pkey span::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+.pkey .g::before{background:var(--warn)} .pkey .h::before{background:var(--cyan)}
+
+/* v1 v2 compare */
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vcol{border:1px solid var(--line);border-radius:5px;padding:14px;background:var(--bg);display:grid;gap:8px;align-content:start}
+.vcol.v1{border-color:color-mix(in srgb,var(--bad) 55%,var(--line))}
+.vcol.v2{border-color:color-mix(in srgb,var(--good) 55%,var(--line))}
+.vcol .h{font-family:var(--mono);font-size:.74rem}
+.vcol.v1 .h{color:var(--bad)} .vcol.v2 .h{color:var(--good)}
+.sum{font-family:var(--mono);font-size:.78rem;display:grid;gap:3px}
+.sum div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--line);padding-bottom:3px}
+.sum .x{color:var(--bad)} .sum .ok{color:var(--good)}
+.vcol ul{margin:0;padding-left:16px;font-size:.84rem;color:var(--muted);display:grid;gap:4px}
+
+/* mail */
+.mail{border:1px solid var(--line);border-radius:6px;background:var(--bg);overflow:hidden}
+.mail-h{padding:12px 14px;border-bottom:1px solid var(--line);background:var(--raise);display:grid;gap:3px;font-size:.8rem;color:var(--muted)}
+.mail-h b{color:var(--fg);font-weight:600}
+.mail-h .subj{font-family:var(--display);font-weight:600;font-size:.98rem;color:var(--fg);margin-top:3px}
+.mail-b{padding:14px;display:grid;gap:10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font-family:var(--mono);font-size:.72rem;padding:3px 9px;border-radius:999px;border:1px solid currentColor}
+.pills .g{color:var(--good)} .pills .w{color:var(--warn)} .pills .r{color:var(--bad)}
+.flag{display:grid;grid-template-columns:4px 1fr;gap:10px;padding:9px 10px 9px 0;border:1px solid var(--line);border-radius:5px}
+.flag::before{content:"";border-radius:4px 0 0 4px;background:var(--bad)}
+.flag.w::before{background:var(--warn)}
+.flag>div{display:grid;gap:3px;min-width:0}
+.flag .t{font-weight:600;font-size:.88rem}
+.flag .m{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+.flag .a{font-size:.84rem} .flag .a b{color:var(--cyan)}
+
+/* flow chain */
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
+.chain span{font-family:var(--mono);font-size:.76rem;padding:6px 10px;border-radius:3px;border:1px solid var(--line);background:var(--raise);white-space:nowrap}
+.chain span.ag{border-color:var(--amber);color:var(--amber)}
+.chain span.hu{border-color:var(--cyan);color:var(--cyan)}
+.chain i{font-style:normal;color:var(--muted);font-family:var(--mono)}
+.bars{display:grid;gap:10px}
+.bar{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr) 5.5em;gap:10px;align-items:center;font-size:.85rem}
+.bar .tr{height:14px;background:var(--raise);border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--muted)}
+.bar .tr i.hl{background:var(--amber)}
+.bar .n{text-align:right;font-family:var(--mono);font-size:.76rem}
+
+/* rollout */
+.roll{display:grid;gap:8px}
+.rl{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--bg);font-size:.88rem}
+.rl .label{color:var(--amber)}
+
+/* offers */
+.offers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.offer{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.offer h3{font-size:1.05rem}
+.offer p{font-size:.88rem;color:var(--muted);line-height:1.5}
+.offer .base{margin-top:auto;font-family:var(--mono);font-size:.7rem;color:var(--cyan);padding-top:8px;border-top:1px dashed var(--line)}
+
+/* contact */
+.contact{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:40px;align-items:start}
+.contact h2{font-size:clamp(1.9rem,4vw,3rem)}
+.contact p{color:var(--muted);margin-top:12px;max-width:52ch}
+.rows{display:grid;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.row{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:center;padding:14px 16px;border-top:1px solid var(--line);min-width:0}
+.row:first-child{border-top:0}
+.row .val{overflow-wrap:anywhere}
+.row button{font-family:var(--mono);font-size:.72rem;background:none;border:1px solid var(--line);color:var(--muted);border-radius:3px;padding:4px 8px;cursor:pointer}
+.row a{font-family:var(--mono);font-size:.72rem;color:var(--cyan)}
+.note{font-size:.84rem;color:var(--muted);border-left:2px solid var(--amber);padding-left:12px;margin-top:22px;max-width:70ch}
+/* origin */
+.origin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:32px;align-items:start}
+.og-main{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:6px;padding:22px;display:grid;gap:12px}
+.og-main p{color:var(--muted)} .og-main p b{color:var(--fg)}
+.origin .journey{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:24px}
+.sec-head.sub{margin-top:64px;padding-top:40px;border-top:1px dashed var(--line);margin-bottom:20px}
+.sec-head.sub h3{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+@media (max-width:960px){.origin{grid-template-columns:1fr}}
+.case.solo{grid-template-columns:minmax(0,1fr)}
+.case.solo .case-text{max-width:760px}
+/* anatomy */
+.anat{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:28px;border:1px solid var(--line);border-radius:6px;background:var(--surface);overflow:hidden}
+.an{padding:14px;border-left:1px solid var(--line);display:grid;gap:6px;align-content:start;min-width:0;position:relative}
+.an:first-child{border-left:0}
+.an .k{font-family:var(--mono);font-size:.68rem;color:var(--amber);letter-spacing:.08em;text-transform:uppercase}
+.an.hu .k{color:var(--cyan)}
+.an b{font-family:var(--display);font-weight:600;font-size:.95rem;line-height:1.25}
+.an p{font-size:.8rem;color:var(--muted);line-height:1.45}
+.an:not(:last-child)::after{content:"→";position:absolute;right:-7px;top:12px;font-family:var(--mono);color:var(--muted);background:var(--surface);font-size:.8rem;z-index:1}
+/* instruct */
+.ex-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ex{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.ex q{display:block;font-family:var(--mono);font-size:.82rem;line-height:1.55;color:var(--fg);background:var(--bg);border-left:2px solid var(--amber);padding:10px 12px;border-radius:0 4px 4px 0;quotes:none;overflow-wrap:anywhere}
+.ex p{font-size:.88rem;color:var(--muted)}
+.ex p b{color:var(--fg);font-weight:600}
+.ba{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.ba .ex:first-child q{border-left-color:var(--bad)}
+.ba .ex:last-child q{border-left-color:var(--good)}
+.tests{margin-top:40px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.test{border-top:2px solid var(--good);padding-top:12px;display:grid;gap:6px;align-content:start}
+.test b{font-family:var(--display);font-weight:600;font-size:1rem}
+.test p{font-size:.86rem;color:var(--muted)}
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.sk{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;gap:10px;align-content:start;min-width:0}
+.sk ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sk li{display:grid;grid-template-columns:minmax(0,8.5em) 1fr;gap:10px;font-size:.86rem;border-bottom:1px dotted var(--line);padding-bottom:7px}
+.sk li:last-child{border-bottom:0;padding-bottom:0}
+.sk li span:first-child{font-weight:600}
+.sk li span:last-child{color:var(--muted)}
+.who{display:inline-block;font-family:var(--mono);font-size:.66rem;padding:1px 6px;border-radius:3px;border:1px solid var(--line);margin-left:6px;vertical-align:1px;color:var(--muted)}
+.who.me{color:var(--good);border-color:color-mix(in srgb,var(--good) 50%,var(--line))}
+.ml{margin-top:14px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:24px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:22px;align-items:center}
+.ml h3{margin:6px 0 10px}
+.ml p{color:var(--muted);font-size:.92rem}
+.mlstats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mlstats>div{border:1px solid var(--line);border-radius:5px;padding:12px;background:var(--bg)}
+.mlstats .v{font-family:var(--display);font-weight:700;font-size:1.5rem;color:var(--amber);line-height:1.1}
+.mlstats .d{font-size:.78rem;color:var(--muted);line-height:1.35;margin-top:4px}
+.feat{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.side{margin-top:14px;font-size:.9rem;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:14px 16px}
+.side b{color:var(--fg)}
+/* pipeline flow */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:stretch}
+.fl{border:1px solid var(--line);border-radius:5px;background:var(--bg);padding:12px;display:grid;gap:4px;align-content:start;position:relative}
+.fl .v{font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--amber);line-height:1.1}
+.fl b{font-size:.86rem}
+.fl span{font-size:.76rem;color:var(--muted);line-height:1.4}
+@media (max-width:960px){.anat{grid-template-columns:repeat(3,minmax(0,1fr))}.an:nth-child(4){border-left:0}.an:nth-child(n+4){border-top:1px solid var(--line)}.an:nth-child(3)::after{display:none}.tests{grid-template-columns:1fr 1fr}.stack{grid-template-columns:1fr 1fr}.ml{grid-template-columns:1fr}}
+@media (max-width:640px){.anat{grid-template-columns:1fr}.an{border-left:0;border-top:1px solid var(--line)}.an:first-child{border-top:0}.an::after{display:none}.ex-grid,.ba,.stack,.tests{grid-template-columns:1fr}.flow{grid-template-columns:1fr 1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:24px;color:var(--muted);font-family:var(--mono);font-size:.76rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (max-width:960px){
+  .caps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .method{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .offers{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .case,.case.flip,.contact{grid-template-columns:1fr;gap:22px}
+  .case .viz,.case.flip .viz{order:2}
+  .proof{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pf{border-left:0;border-top:1px solid var(--line)}
+  .pf:nth-child(-n+2){border-top:0}
+  .pf:nth-child(even){border-left:1px solid var(--line)}
+  .toolbox{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  section{padding-block:52px}
+  .hero{padding-block:48px 40px}
+  .caps,.offers,.toolbox,.vs{grid-template-columns:1fr}
+  .method{grid-template-columns:1fr 1fr}
+  .journey{grid-template-columns:1fr 1fr;row-gap:22px}
+  .pipe{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .pa div{grid-template-columns:1fr;gap:2px}
+  .rl{grid-template-columns:1fr;gap:2px}
+  .bar{grid-template-columns:minmax(0,7.5em) minmax(0,1fr) 4.6em}
+  .nav nav a:not(.ext):not([href="#contact"]){display:none}
+  .mark small{display:none}
+}
+</style>
+</head>
+<body>
+
+
+<header class="nav">
+  <div class="wrap">
+    <a class="mark" href="#top">M<span>/</span>HAMDY<small>AI PORTFOLIO</small></a>
+    <nav aria-label="Sections">
+      <a href="#origin">Background</a><a href="#capabilities">Capabilities</a><a href="#work">Work</a><a href="#method">How I build</a><a href="#stack">Tech stack</a><a href="#build">What I can build</a><a href="#contact">Contact</a><a class="ext" href="https://moealy.github.io" target="_blank" rel="noopener">Data portfolio ↗</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" aria-label="Switch light or dark theme">◐</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div class="status"><span class="dot" aria-hidden="true"></span><span class="label">AI portfolio · Claude agents, skills and automation</span></div>
+    <h1>I build AI agents that do <em>real work</em>, reliably.</h1>
+    <p class="lede">Mohamed Hamdy, data analyst and AI builder. I design Claude agents and skills that connect to company data, check their own work, and leave the final call to a person. Underneath sits a hands-on data stack: SQL, Python, cloud databases, BI tools and machine learning.</p>
+    <div class="btns"><a class="btn primary" href="#work">See the work</a><a class="btn" href="#capabilities">What I can do</a></div>
+    <div class="proof">
+      <div class="pf"><div class="v">75<em>h</em></div><div class="d">analyst time saved every month on recurring reports</div></div>
+      <div class="pf"><div class="v">1 <em>role</em></div><div class="d">of reporting workload, once shared by 3 analysts, now runs end to end with Claude</div></div>
+      <div class="pf"><div class="v">100<em>+</em></div><div class="d">live campaigns checked every morning by a monitoring agent</div></div>
+      <div class="pf"><div class="v">4h<em>→</em>15m</div><div class="d">turnaround on ad-hoc data requests</div></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="origin">
+  <div class="wrap">
+    <div class="sec-head"><h2>Where it started</h2><span class="label">2024 to now</span></div>
+    <div class="origin">
+      <div class="og-main">
+        <span class="label">Meska AI · AI Copilot Diploma · 2024</span>
+        <h3>Winning team, diploma projects competition</h3>
+        <p>My AI work started with Meska AI's AI Copilot Diploma. Our team's final project, <b>Glimmer Tales</b>, won the competition among the projects built after the diploma: a storytelling app that creates personalised bedtime stories for children, designed to bring back quality time between parents and kids.</p>
+        <div class="tags"><span class="tag">Generative AI</span><span class="tag">Consumer product</span><span class="tag">Team project</span><span class="tag">1st place</span></div>
+      </div>
+      <div class="journey">
+        <div class="jstep"><span class="when">2024</span><h3>Meska AI diploma</h3><p>AI Copilot Diploma. Team won the projects competition with Glimmer Tales.</p></div>
+        <div class="jstep"><span class="when">2025</span><h3>Custom GPT</h3><p>First tool at work: a ChatGPT custom GPT drafting end-of-project reports.</p></div>
+        <div class="jstep"><span class="when">2026</span><h3>Claude skills and agents</h3><p>Team processes packaged as skills; agents on live company data.</p></div>
+        <div class="jstep now"><span class="when">Now</span><h3>Team roadmap</h3><p>Leading the analytics team's move to AI.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="capabilities">
+  <div class="wrap">
+    <div class="sec-head"><h2>What I can do</h2><span class="label">Each one proven in a real project</span></div>
+    <div class="caps">
+      <div class="cap"><span class="ic">01 · Agents</span><h3>AI agents and automations</h3><p>Agents that run on a schedule or on request, use tools, decide their next step and deliver a finished result.</p><a href="#case-pacing">Proven in: monitoring agent →</a></div>
+      <div class="cap"><span class="ic">02 · Skills</span><h3>Custom skills and workflows</h3><p>Packaging a team's process into a skill, so anyone can run it the same way every time.</p><a href="#case-report">Proven in: report system →</a></div>
+      <div class="cap"><span class="ic">03 · Data</span><h3>Connecting AI to company data</h3><p>Linking Claude to databases, shared drives, email and business APIs through MCP connectors, with read-only access where it matters.</p><a href="#case-adhoc">Proven in: request agent →</a></div>
+      <div class="cap"><span class="ic">04 · Accuracy</span><h3>AI that cannot invent numbers</h3><p>Scripts do every calculation, quality gates stop bad data, and the AI only writes words around verified figures.</p><a href="#case-report">Proven in: report system →</a></div>
+      <div class="cap"><span class="ic">05 · Review</span><h3>Independent AI quality review</h3><p>A second agent in a fresh context recomputes the numbers and tries to prove the first agent wrong.</p><a href="#case-summary">Proven in: summary agent v2 →</a></div>
+      <div class="cap"><span class="ic">06 · Rollout</span><h3>AI adoption in a team</h3><p>Finding the right use cases, building them, and getting a team to rely on them every day.</p><a href="#case-rollout">Proven in: team roadmap →</a></div>
+    </div>
+    <div class="toolbox" aria-label="Toolbox">
+      <div class="tb"><span class="label">AI platforms</span><ul><li class="k">Claude</li><li class="k">Skills</li><li class="k">Agents</li><li>Scheduled tasks</li><li>Browser automation</li><li>ChatGPT custom GPTs</li></ul></div>
+      <div class="tb"><span class="label">AI methods</span><ul><li class="k">Prompt and context design</li><li>MCP connectors</li><li>Quality gates</li><li>Reviewer agents</li><li>Human approval</li></ul></div>
+      <div class="tb"><span class="label">Data and engineering</span><ul><li class="k">SQL</li><li class="k">Python</li><li>pandas</li><li>BigQuery</li><li>PostgreSQL</li><li>AWS</li><li>Incorta</li><li>Machine learning</li><li>Looker Studio</li><li>Power BI</li></ul></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head"><h2>Selected work</h2><span class="label">A2Z Media · 2025 to now</span></div>
+
+    <article class="case" id="case-report">
+      <div class="case-text">
+        <span class="label">Flagship · Document generation · Context: multi-market education client</span>
+        <h3>Automated report generation where the AI cannot invent a number</h3>
+        <p>Weekly and monthly reports for a multi-market education client took the workload of one dedicated analyst, shared across our team of three. I designed a two-skill system that builds the full client deck and Excel file end to end, and a second skill that independently reviews it.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">1 role</div><div class="d">of recurring workload now handled by Claude</div></div>
+          <div class="stat"><div class="v">7</div><div class="d">quality gates before anything is built</div></div>
+          <div class="stat"><div class="v">0</div><div class="d">numbers typed by the AI</div></div>
+        </div>
+        <div class="pa">
+          <div><span class="label">Rule</span><span>A missing number is acceptable; a wrong number is not. Scripts calculate everything; Claude writes text with placeholders that only verified data can fill.</span></div>
+          <div><span class="label">Checks</span><span>BigQuery is cross-checked against the ad platforms, files are checked against control totals, and a failed check stops the run.</span></div>
+          <div><span class="label">People</span><span>Nothing reaches the client. The analyst gets a draft email with the deck, every warning and the reviewer's verdict.</span></div>
+        </div>
+        <div class="tags"><span class="tag">Claude skills</span><span class="tag">Python scripts</span><span class="tag">BigQuery</span><span class="tag">Windsor.ai</span><span class="tag">Google Drive</span><span class="tag">Gmail</span></div>
+      </div>
+      <div class="viz">
+        <span class="label">The 9 stages · tap a stage</span>
+        <div class="pipe" id="pipe" role="group" aria-label="Report pipeline stages"></div>
+        <div class="pdetail" id="pdetail" aria-live="polite"></div>
+        <div class="pkey"><span class="g">Quality gate: a failure stops the run</span><span class="h">Person decides</span></div>
+      </div>
+    </article>
+
+    <article class="case solo" id="case-summary">
+      <div class="case-text">
+        <span class="label">AI output verification · Context: campaign summaries</span>
+        <h3>An agent I broke, diagnosed and rebuilt with an independent reviewer</h3>
+        <p>An unattended agent that reads a campaign's live report and media plan, pulls the data, and drafts the client summary. Its first test run had a one-purchase mismatch a client could spot. I traced it to two source tables being mixed, and redesigned it so the AI no longer does arithmetic.</p>
+        <div class="pa">
+          <div><span class="label">Fix 1</span><span>One source table for the headline and every split, so all breakdowns add up.</span></div>
+          <div><span class="label">Fix 2</span><span>A calculator script, and a checker that fails any number not in its table.</span></div>
+          <div><span class="label">Fix 3</span><span>A reviewer agent with no access to the author's numbers recomputes at least five from the database.</span></div>
+          <div><span class="label">Safety</span><span>If review still fails, the draft is labelled UNVERIFIED and I get an alert, instead of a confident wrong answer.</span></div>
+        </div>
+        <div class="tags"><span class="tag">Scheduled task</span><span class="tag">Subagent reviewer</span><span class="tag">Browser read-only</span><span class="tag">BigQuery</span></div>
+      </div>
+    </article>
+
+    <article class="case" id="case-rollout">
+      <div class="case-text">
+        <span class="label">Leadership · Team adoption</span>
+        <h3>Leading the analytics team's move to AI</h3>
+        <p>I proposed the roadmap, chose the use cases with the most manual work, built the agents and skills, and trained the team to use them in their daily work.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">83%</div><div class="d">faster end-of-campaign reports (90 to 15 min each)</div></div>
+          <div class="stat"><div class="v">75h</div><div class="d">analyst time freed every month</div></div>
+        </div>
+        <div class="tags"><span class="tag">Roadmap</span><span class="tag">Use-case selection</span><span class="tag">Team training</span></div>
+      </div>
+      <div class="viz">
+        <span class="label">Roadmap</span>
+        <div class="roll">
+          <div class="rl"><span class="label">Use cases</span><span>Ranked by hours of manual work and risk of error: month-end reports, pacing checks, ad-hoc requests.</span></div>
+          <div class="rl"><span class="label">Build</span><span>Skills and agents with read-only access, quality gates and drafts only.</span></div>
+          <div class="rl"><span class="label">Rollout</span><span>Trained the analysts on running the agents and skills, and on reviewing their output.</span></div>
+          <div class="rl"><span class="label">Result</span><span>Analysts spend the saved time on review and recommendations instead of manual reporting.</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case flip" id="case-pacing">
+      <div class="case-text">
+        <span class="label">Monitoring and alerting · Context: live ad campaigns</span>
+        <h3>A scheduled agent that flags problems before the working day</h3>
+        <p>Checking pacing across 100+ live campaigns was manual and late. The agent runs on a schedule two hours before work starts, compares delivery with each media plan, and emails the performance and strategy teams with flags and a suggested action.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">100+</div><div class="d">campaigns checked every morning</div></div>
+          <div class="stat"><div class="v">Read-only</div><div class="d">access to media plans; it cannot change a campaign</div></div>
+        </div>
+        <div class="pa">
+          <div><span class="label">Example</span><span>Flagged Meta conversion campaigns delivering too few leads, and recommended moving budget to Google Search, which had a lower cost per lead and better lead quality.</span></div>
+        </div>
+        <div class="tags"><span class="tag">Scheduled task</span><span class="tag">BigQuery</span><span class="tag">Windsor.ai</span><span class="tag">Gmail</span></div>
+      </div>
+      <div class="viz">
+        <span class="label">Example morning email · demo data</span>
+        <div class="mail">
+          <div class="mail-h"><span><b>From</b> Pacing Agent · <b>To</b> Performance, Strategy</span><span class="subj">Daily pacing: 3 actions and 5 to watch across 104 live campaigns</span></div>
+          <div class="mail-b">
+            <div class="pills"><span class="g">96 on track</span><span class="w">5 watch</span><span class="r">3 action</span></div>
+            <div class="flag"><div><span class="t">Automotive · Meta conversions</span><span class="m">Leads 61% of pace · CPL $38 vs $22 plan</span><span class="a"><b>Action:</b> move 20% of budget to Google Search (CPL $14).</span></div></div>
+            <div class="flag"><div><span class="t">Real estate · Google Search</span><span class="m">Spend 128% of plan · 14 days left</span><span class="a"><b>Action:</b> cap the daily budget to land on plan.</span></div></div>
+            <div class="flag w"><div><span class="t">Education · Meta awareness</span><span class="m">Frequency 4.2 · CTR down 38% in 7 days</span><span class="a"><b>Action:</b> refresh creatives.</span></div></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="case" id="case-adhoc">
+      <div class="viz">
+        <span class="label">Turnaround per request</span>
+        <div class="bars">
+          <div class="bar"><span>Before</span><span class="tr"><i style="width:100%"></i></span><span class="n">up to 4 h</span></div>
+          <div class="bar"><span>With the agent</span><span class="tr"><i class="hl" style="width:6.25%"></i></span><span class="n">~15 min</span></div>
+        </div>
+        <span class="label">How it works</span>
+        <div class="chain"><span>Client question</span><i>→</i><span class="ag">Request agent</span><i>→</i><span>BigQuery</span><i>⇄</i><span>Windsor.ai check</span><i>→</i><span class="hu">Analyst</span><i>→</i><span>Sheet or slides</span></div>
+      </div>
+      <div class="case-text">
+        <span class="label">Questions to SQL · Context: client data requests</span>
+        <h3>An agent that turns a plain-English question into a checked answer</h3>
+        <p>Urgent client questions used to mean hours of querying while the team was busy. The agent pulls the data from BigQuery, validates it against Windsor.ai, and returns the answer as a Google Sheet or a presentation for the analyst to check and send.</p>
+        <div class="stats"><div class="stat"><div class="v">4h→15m</div><div class="d">typical turnaround per request</div></div></div>
+        <div class="tags"><span class="tag">BigQuery</span><span class="tag">Windsor.ai</span><span class="tag">Google Sheets</span><span class="tag">Slides</span></div>
+      </div>
+    </article>
+
+    <article class="case flip" id="case-pipeline">
+      <div class="case-text">
+        <span class="label">AI-assisted engineering · Context: operations analytics</span>
+        <h3>A 15-source data pipeline and live dashboard, built with Claude as copilot</h3>
+        <p>An operations team's performance report was assembled by hand from 15 separate data sources. I designed and coded an automated pipeline that cleans and joins them into a database model and feeds a live dashboard, using Claude as a coding copilot throughout.</p>
+        <div class="stats">
+          <div class="stat"><div class="v">15</div><div class="d">data sources joined automatically</div></div>
+          <div class="stat"><div class="v">Live</div><div class="d">dashboard replacing a manual report</div></div>
+        </div>
+        <div class="pa">
+          <div><span class="label">My part</span><span>Pipeline design, data model (fact and dimension tables), cleaning logic, and checking KPIs against the old manual report.</span></div>
+          <div><span class="label">Claude's part</span><span>Pair programmer: drafting code, debugging and explaining errors, under my direction.</span></div>
+        </div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">SQL</span><span class="tag">PostgreSQL</span><span class="tag">AWS</span><span class="tag">Incorta</span></div>
+      </div>
+      <div class="viz">
+        <span class="label">Pipeline</span>
+        <div class="flow">
+          <div class="fl"><span class="v">15</span><b>Raw sources</b><span>Excel files and an internal database</span></div>
+          <div class="fl"><span class="v">ETL</span><b>Python + pandas</b><span>Clean, standardise, join on IDs</span></div>
+          <div class="fl"><span class="v">DB</span><b>PostgreSQL · AWS</b><span>Fact and dimension tables</span></div>
+          <div class="fl"><span class="v">BI</span><b>Incorta</b><span>Live KPI dashboard</span></div>
+        </div>
+        <p class="viz-cap">Different industry, same discipline: KPI scores were reconciled line by line against the old manual report before the dashboard replaced it.</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head"><h2>How I build</h2><span class="label">Accuracy first, people in control</span></div>
+    <p class="sec-sub">The method behind every case above: six steps, one agent design, and the instruction and testing habits that make them reliable. The rules come before the build: what the AI must never do is decided first.</p>
+    <div class="method">
+      <div class="ms"><span class="n">01</span><b>Define the job</b><p>The business problem, and what a correct result looks like.</p></div>
+      <div class="ms"><span class="n">02</span><b>Set the rules</b><p>What the AI must never do: send, edit, guess or calculate by itself.</p></div>
+      <div class="ms"><span class="n">03</span><b>Build with Claude</b><p>Skills, scripts and connectors, written with Claude from my requirements.</p></div>
+      <div class="ms"><span class="n">04</span><b>Test on real data</b><p>Run it on real cases, find the failures, fix the cause.</p></div>
+      <div class="ms"><span class="n">05</span><b>Independent review</b><p>A second agent checks the work before anyone sees it.</p></div>
+      <div class="ms human"><span class="n">06 · Person</span><b>Human approves</b><p>Output is a draft. An analyst reviews and sends.</p></div>
+    </div>
+    <div class="anat" aria-label="Anatomy of one agent">
+      <div class="an"><span class="k">Trigger</span><b>Schedule or request</b><p>A morning schedule, or a person asking for a report or an answer.</p></div>
+      <div class="an"><span class="k">Instructions</span><b>Skill file</b><p>The method, hard rules and stop conditions, loaded only when needed.</p></div>
+      <div class="an"><span class="k">Tools</span><b>MCP connectors</b><p>Database, files, email, business systems. Read-only where possible.</p></div>
+      <div class="an"><span class="k">Scripts</span><b>Deterministic code</b><p>All maths, checks and file building. The model never calculates.</p></div>
+      <div class="an"><span class="k">Reviewer</span><b>Second agent</b><p>Fresh context, no access to the author's numbers.</p></div>
+      <div class="an hu"><span class="k">Person</span><b>Draft only</b><p>Files, warnings and verdict land with an analyst to approve.</p></div>
+    </div>
+    <div class="sec-head sub" id="instruct"><h3>How I instruct AI</h3><span class="label">Context and instruction design</span></div>
+    <p class="sec-sub">Real lines from the skills on this page, client names removed. Good instructions are not clever wording: they give the model a rule for every judgment call, and make the important rules impossible to break.</p>
+    <div class="ex-grid">
+      <div class="ex"><span class="label">A tie-breaker</span><q>Accuracy first. A missing number is acceptable; a wrong number is not.</q><p><b>Why:</b> when the model is unsure whether to fill a gap, this one line decides for it, in the safe direction.</p></div>
+      <div class="ex"><span class="label">An enforced rule</span><q>Narrative text uses {tokens} from facts.txt; build_deck.js rejects literal numbers.</q><p><b>Why:</b> "don't invent numbers" is a request. A builder that refuses any typed number makes it a guarantee.</p></div>
+      <div class="ex"><span class="label">A stop condition</span><q>In a scheduled run, never guess: stop, and send the [BLOCKED] draft listing the question.</q><p><b>Why:</b> an unattended agent has nobody to ask. It must fail loudly instead of guessing quietly.</p></div>
+      <div class="ex"><span class="label">A reviewer brief</span><q>You did not build it. Assume it can be wrong. Work only from the files; do not trust anything you remember from building it.</q><p><b>Why:</b> a model reviewing its own work tends to approve it. Separate context and a sceptical brief stop that.</p></div>
+    </div>
+    <div class="ba">
+      <div class="ex"><span class="label">v1 · What went wrong</span><q>Total taken from one data table, breakdowns from another. The total said 44; the breakdown added up to 45.</q><p>The model chose its sources freely, and the numbers stopped agreeing.</p></div>
+      <div class="ex"><span class="label">v2 · The rule that fixed it (simplified)</span><q>Use one source table for the total and every breakdown.</q><p>One explicit source rule, plus a script that checks every breakdown adds up to the total.</p></div>
+    </div>
+    <div class="tests" aria-label="How I test AI output">
+      <div class="test"><span class="label">Testing 01</span><b>Real data, real failures</b><p>Every build is tested on real data. Failed outputs are kept as test cases: the old faulty version must now fail the checks.</p></div>
+      <div class="test"><span class="label">Testing 02</span><b>Control totals</b><p>Each data file is compared with a separate totals query, so a copying slip stops the run.</p></div>
+      <div class="test"><span class="label">Testing 03</span><b>Independent recompute</b><p>The reviewer recomputes at least five numbers from raw data. Any mismatch is a fail.</p></div>
+      <div class="test"><span class="label">Testing 04</span><b>Known limits, written down</b><p>Each build ships with a list of what is untested or could slip through, and which check backs it up.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head"><h2>Technical depth</h2><span class="label">The data skills under the AI work</span></div>
+    <p class="sec-sub">An agent is only as reliable as the data and checks behind it. Marked honestly: <span class="who me">I write</span> means I write it myself; <span class="who">with Claude</span> means Claude writes it to my design and I review it.</p>
+    <div class="stack">
+      <div class="sk"><span class="label">Data</span><ul>
+        <li><span>SQL <span class="who me">I write</span></span><span>BigQuery and PostgreSQL queries, data checks, control totals</span></li>
+        <li><span>Python <span class="who me">I write</span></span><span>pandas cleaning and ETL, automation scripts</span></li>
+        <li><span>Data modelling</span><span>Fact and dimension tables, joining many sources on IDs</span></li>
+        <li><span>Cloud</span><span>BigQuery, PostgreSQL on AWS</span></li>
+      </ul></div>
+      <div class="sk"><span class="label">AI systems</span><ul>
+        <li><span>Skills</span><span>Process, rules, scripts and references packaged for Claude</span></li>
+        <li><span>Agents <span class="who">with Claude</span></span><span>Scheduled and on-request agents, reviewer subagents</span></li>
+        <li><span>MCP</span><span>Database, Drive, Gmail and API connectors</span></li>
+        <li><span>Custom GPTs</span><span>ChatGPT assistant for report drafts</span></li>
+      </ul></div>
+      <div class="sk"><span class="label">BI and delivery</span><ul>
+        <li><span>Dashboards</span><span>Incorta, Looker Studio, Power BI</span></li>
+        <li><span>Pipelines</span><span>API data connectors, scheduled Python jobs</span></li>
+        <li><span>Outputs</span><span>Automated decks, Excel workbooks, email drafts</span></li>
+      </ul></div>
+    </div>
+    <div class="ml">
+      <div>
+        <span class="label">Machine learning · In production</span>
+        <h3>Forecasting results before launch</h3>
+        <p>A Random Forest model that forecasts the results of a new initiative before it starts, from its plan: budget, duration, timing, product and channel. Built for lead forecasting, and validated with GroupKFold, so it is always tested on cases it has never seen.</p>
+        <div class="feat"><span class="tag">Random Forest</span><span class="tag">GroupKFold</span><span class="tag">Python</span><span class="tag">Feature engineering</span></div>
+      </div>
+      <div class="mlstats">
+        <div><div class="v">~80%</div><div class="d">accuracy on the cases it was applied to</div></div>
+        <div><div class="v">In use</div><div class="d">still used for pre-launch planning</div></div>
+      </div>
+    </div>
+    <p class="side"><b>Also built with Claude:</b> personal expense and habit trackers, as interactive apps made inside Claude.</p>
+  </div>
+</section>
+
+<section id="build">
+  <div class="wrap">
+    <div class="sec-head"><h2>What I can build for you</h2><span class="label">Built on methods proven above</span></div>
+    <div class="offers">
+      <div class="offer"><h3>Automated reporting</h3><p>Recurring management, client or operations reports built from your data, with checks before anything is sent.</p><span class="base">Based on: report system</span></div>
+      <div class="offer"><h3>Monitoring and alerts</h3><p>A daily agent that watches targets, KPIs and budgets in any team and tells the right people what needs action.</p><span class="base">Based on: monitoring agent</span></div>
+      <div class="offer"><h3>Ask-your-data assistant</h3><p>Answers to business questions from your database, validated and delivered as a sheet or deck.</p><span class="base">Based on: request agent</span></div>
+      <div class="offer"><h3>AI quality checks</h3><p>A reviewer agent that recomputes and verifies AI output before people rely on it.</p><span class="base">Based on: summary agent v2</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact">
+    <div>
+      <span class="label">Contact</span>
+      <h2 style="margin-top:12px">Have a process that should run itself?</h2>
+      <p>Happy to walk through any of these agents live, or talk about where AI could save your team time.</p>
+    </div>
+    <div class="rows">
+      <div class="row"><span class="label">Email</span><span class="val" id="email">mohamed96hamdii@gmail.com</span><button id="copyBtn" type="button">Copy</button></div>
+      <div class="row"><span class="label">WhatsApp</span><span class="val">+20 115 537 4062</span><span></span></div>
+      <div class="row"><span class="label">Data work</span><span class="val">moealy.github.io</span><a href="https://moealy.github.io" target="_blank" rel="noopener">Open ↗</a></div>
+    </div>
+  </div>
+  <div class="wrap"><p class="note">How the work is split: for the agents and skills, I set the requirements, the rules and the review process, and Claude wrote the code. SQL, pandas and pipeline code I write myself, with Claude as a copilot. Client names and figures in the visuals are anonymised or demo data.</p></div>
+</section>
+</main>
+<footer><div class="wrap"><span>© 2026 Mohamed Hamdy</span><span>AI portfolio · Cairo, Egypt</span></div></footer>
+
+<script>
+(function(){
+  const stages=[
+    {s:"Run",t:"Create the run",p:"Market and dates only. Everything else is found automatically.",r:"Input: market + period"},
+    {s:"Plan",t:"Read the media plan",p:"Finds the approved plan tab in Drive and checks its maths.",r:"Gate: plan must add up",g:1,h:1},
+    {s:"Data",t:"Pull campaign data",p:"Discovers the market's campaigns in BigQuery and maps each one to a plan line.",r:"Gates: complete, fresh, mapped",g:1,h:1},
+    {s:"Check",t:"Cross-check the source",p:"Compares BigQuery with the ad platforms through Windsor.ai on settled days.",r:"Gate: must agree, or stop",g:1},
+    {s:"Calc",t:"Compute every number",p:"A script builds the dataset and runs all quality gates. A failure stops the run.",r:"Rule: the AI never calculates",g:1},
+    {s:"Write",t:"Write the narrative",p:"Claude writes the text using placeholders. Any typed number is rejected.",r:"Rule: numbers only from verified data"},
+    {s:"Build",t:"Build deck and Excel",p:"Builds the branded deck and workbook, then renders every slide to check layout.",r:"Check: no overflow, no empty charts"},
+    {s:"Review",t:"Independent review",p:"A reviewer in a fresh context traces every number and recomputes five from the raw files.",r:"Verdict: PASS, PASS WITH NOTES or FAIL",g:1},
+    {s:"Draft",t:"Deliver as a draft",p:"The analyst gets a draft email with files, warnings and the verdict. Nothing goes to the client.",r:"Person approves and sends",h:1}
+  ];
+  const pipe=document.getElementById("pipe"), det=document.getElementById("pdetail");
+  pipe.innerHTML=stages.map((x,i)=>`<button type="button" data-i="${i}" class="${x.g?"gate":""}${x.h&&!x.g?" hum":""}" aria-pressed="false">${i+1}<br>${x.s}</button>`).join("");
+  function show(i){
+    pipe.querySelectorAll("button").forEach((b,j)=>b.setAttribute("aria-pressed",String(j===i)));
+    const x=stages[i];
+    det.innerHTML=`<span class="label">Stage ${i+1} of 9</span><b>${x.t}</b><p>${x.p}</p><span class="rule">${x.r}</span>`;
+  }
+  pipe.addEventListener("click",e=>{const b=e.target.closest("button"); if(b) show(+b.dataset.i);});
+  show(4);
+  document.getElementById("copyBtn").addEventListener("click",function(){
+    const b=this,t=document.getElementById("email").textContent;
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById("email"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"};
+    try{navigator.clipboard.writeText(t).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy",1600)},sel)}catch(e){sel()}
+  });
+  document.getElementById("themeBtn").addEventListener("click",()=>{
+    const r=document.documentElement,c=r.dataset.theme||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark");
+    r.dataset.theme=c==="dark"?"light":"dark";
+  });
+})();
+</script>
+
+</body>
+</html>
